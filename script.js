@@ -3,6 +3,7 @@
 
   const DEST = "https://slothouse.io/";
   const DEFAULT_SECONDS = 10;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ---------- Footer year ---------- */
   const year = document.getElementById("year");
@@ -16,8 +17,29 @@
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
 
+  /* ---------- Atmosphere parallax (pointer) ---------- */
+  const root = document.documentElement;
+  if (!reduceMotion && window.matchMedia("(pointer: fine)").matches) {
+    let raf = 0;
+    let px = 0.5;
+    let py = 0.3;
+    const apply = () => {
+      raf = 0;
+      root.style.setProperty("--mx", `${(px * 100).toFixed(2)}%`);
+      root.style.setProperty("--my", `${(py * 100).toFixed(2)}%`);
+    };
+    window.addEventListener(
+      "pointermove",
+      (event) => {
+        px = event.clientX / window.innerWidth;
+        py = event.clientY / window.innerHeight;
+        if (!raf) raf = window.requestAnimationFrame(apply);
+      },
+      { passive: true }
+    );
+  }
+
   /* ---------- Scroll reveal ---------- */
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const sections = [...document.querySelectorAll(".reveal")];
 
   if (sections.length) {
