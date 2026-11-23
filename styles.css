@@ -312,6 +312,7 @@ a:hover {
 
 .brand img {
   width: 100%;
+  height: auto;
 }
 
 .site-nav {
@@ -1545,6 +1546,7 @@ a:hover {
 
 .footer__logo {
   width: 8.5rem;
+  height: auto;
   margin-bottom: var(--space-3);
   opacity: 0.92;
 }
